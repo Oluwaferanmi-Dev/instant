@@ -12,11 +12,11 @@ export default function Home() {
       {/* BEGIN: Header */}
       <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-24">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link href="#" className="flex items-center gap-2">
-                <Image src="/logo.png" alt="Instant Logo" width={150} height={40} className="h-8 w-auto" priority />
+                <Image src="/logo.png" alt="Instant Logo" width={300} height={80} className="h-20 w-auto" priority />
               </Link>
             </div>
             
