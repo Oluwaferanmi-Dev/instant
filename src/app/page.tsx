@@ -3,86 +3,42 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { supabase } from '@/utils/supabase';
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerStatus, setCustomerStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [providerEmail, setProviderEmail] = useState('');
+  const [providerStatus, setProviderStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleCustomerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCustomerStatus('loading');
+    const { error } = await supabase.from('waitlist').insert({ email: customerEmail, role: 'customer' });
+    if (error && error.code !== '23505') {
+      setCustomerStatus('error');
+    } else {
+      setCustomerStatus('success');
+      setCustomerEmail('');
+    }
+  };
+
+  const handleProviderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProviderStatus('loading');
+    const { error } = await supabase.from('waitlist').insert({ email: providerEmail, role: 'provider' });
+    if (error && error.code !== '23505') {
+      setProviderStatus('error');
+    } else {
+      setProviderStatus('success');
+      setProviderEmail('');
+    }
+  };
 
   return (
     <>
-      {/* BEGIN: Header */}
-      <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="#" className="flex items-center gap-2">
-                <Image src="/logo.png" alt="Instant Logo" width={300} height={80} className="h-20 w-auto" priority />
-              </Link>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              <Link href="#" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">Home</Link>
-              <Link href="#how-it-works" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How it Works</Link>
-              <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Providers</Link>
-              <Link href="#about-us" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</Link>
-              <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
-            </nav>
-            
-            {/* Desktop Actions */}
-            <div className="hidden md:flex items-center space-x-4">
-              <Link href="#" className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-blue-700 transition-colors shadow-sm">
-                Join Waitlist
-              </Link>
-              <Link href="#" className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-primary bg-white hover:bg-gray-50 transition-colors shadow-sm">
-                Provider Sign Up
-              </Link>
-            </div>
 
-            {/* Mobile Hamburger Button */}
-            <div className="flex md:hidden items-center">
-              <button 
-                type="button" 
-                className="text-gray-500 hover:text-gray-900 p-2 focus:outline-none"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? (
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-4 shadow-lg absolute w-full left-0 z-50">
-            <nav className="flex flex-col space-y-4">
-              <Link href="#" className="text-base font-medium text-gray-900 hover:text-primary">Home</Link>
-              <Link href="#how-it-works" className="text-base font-medium text-gray-500 hover:text-gray-900">How it Works</Link>
-              <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">For Providers</Link>
-              <Link href="#about-us" className="text-base font-medium text-gray-500 hover:text-gray-900">About Us</Link>
-              <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">Contact</Link>
-            </nav>
-            <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-              <Link href="#" className="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:bg-blue-700 shadow-sm">
-                Join Waitlist
-              </Link>
-              <Link href="#" className="w-full inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-base font-medium rounded-lg text-primary bg-white hover:bg-gray-50 shadow-sm">
-                Provider Sign Up
-              </Link>
-            </div>
-          </div>
-        )}
-      </header>
-      {/* END: Header */}
 
       {/* BEGIN: Main Content */}
       <main>
@@ -148,7 +104,7 @@ export default function Home() {
                       </div>
                       <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
-                        Lagos, Nigeria
+                        Boston, Massachusetts
                       </div>
                     </div>
                     
@@ -254,91 +210,7 @@ export default function Home() {
         </section>
         {/* END: Categories Section */}
 
-        {/* BEGIN: How it Works Section */}
-        <section id="how-it-works" className="py-20 bg-gray-50 border-y border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">How Instant Works</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">Your journey to finding the perfect service provider, simplified into six easy steps.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {/* Step 1 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">1</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Tell Us What You Need</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">Choose the service you’re looking for and provide a few details about the job.</p>
-              </div>
-              
-              {/* Step 2 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">2</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Compare Local Providers</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">Browse trusted professionals, compare profiles, ratings, response times, and pricing information all in one place.</p>
-              </div>
-              
-              {/* Step 3 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">3</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Choose Your Provider</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">Select the provider that best fits your needs and request a booking.</p>
-              </div>
-              
-              {/* Step 4 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">4</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Confirm Your Booking</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">The provider reviews your request and confirms availability.</p>
-              </div>
-              
-              {/* Step 5 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">5</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Message and Manage</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">Chat directly with your provider, ask questions, and keep track of your booking from start to finish.</p>
-              </div>
-              
-              {/* Step 6 */}
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">6</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Get the Job Done</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">Your provider completes the service, and you can leave a review to help others make informed decisions.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* END: How it Works Section */}
 
-        {/* BEGIN: About Us Section */}
-        <section id="about-us" className="py-24 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary-light text-primary text-xs font-semibold uppercase tracking-wider mb-6">
-              Our Story
-            </div>
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">About Us</h2>
-            <div className="space-y-6 text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              <p>
-                At Partus, the birthplace of Instant, we are a small team from different parts of the world brought together by one simple goal: <span className="font-semibold text-gray-900">solving everyday problems through technology.</span>
-              </p>
-              <p>
-                We started with a simple question: why is finding a reliable home service professional still so difficult?
-              </p>
-              <p>
-                Too often, people spend hours searching, asking for recommendations, and taking chances on providers they know little about. We believed there had to be a better way.
-              </p>
-              <p>
-                That belief led to the creation of <span className="font-semibold text-primary">Instant</span> — a platform designed to make finding, comparing, and booking trusted local service providers simple, transparent, and stress-free.
-              </p>
-              <p>
-                We are still a small team, but we are building with a big vision: to create technology that makes everyday life easier, one problem at a time.
-              </p>
-              <p className="text-xl font-medium text-gray-900 pt-4">
-                This is just the beginning of our journey, and we are excited to build the future with our community.
-              </p>
-            </div>
-          </div>
-        </section>
-        {/* END: About Us Section */}
 
         {/* BEGIN: CTA Sections */}
         <section className="py-16 bg-white">
@@ -354,11 +226,20 @@ export default function Home() {
                 <div className="relative z-10 w-full lg:w-1/2 max-w-sm lg:ml-auto pb-8 lg:pb-12">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Join the waitlist</h3>
                   <p className="text-gray-600 mb-6 text-sm">Be the first to experience Instant.</p>
-                  <form className="space-y-4">
-                    <input className="w-full px-4 py-3 rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Enter your email address" required type="email"/>
-                    <button className="w-full px-4 py-3 bg-primary text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm cursor-pointer" type="submit">
-                      Join Waitlist
-                    </button>
+                  <form className="space-y-4" onSubmit={handleCustomerSubmit}>
+                    <input className="w-full px-4 py-3 rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Enter your email address" required type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} disabled={customerStatus === 'loading' || customerStatus === 'success'} />
+                    {customerStatus === 'error' && (
+                      <p className="text-red-500 text-xs">Something went wrong. Please try again.</p>
+                    )}
+                    {customerStatus === 'success' ? (
+                      <div className="w-full px-4 py-3 bg-green-100 text-green-800 font-medium rounded-lg text-center shadow-sm">
+                        You&apos;re on the list! We&apos;ll be in touch.
+                      </div>
+                    ) : (
+                      <button className="w-full px-4 py-3 bg-primary text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm cursor-pointer disabled:opacity-70" type="submit" disabled={customerStatus === 'loading'}>
+                        {customerStatus === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                      </button>
+                    )}
                     <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
                       We respect your privacy. No spam, ever.
@@ -373,11 +254,20 @@ export default function Home() {
                 <div className="relative z-10 w-full lg:w-1/2 max-w-sm pb-8 lg:pb-12">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Are you a service provider?</h3>
                   <p className="text-gray-600 mb-6 text-sm">Join Instant and get found by more customers.</p>
-                  <form className="space-y-4">
-                    <input className="w-full px-4 py-3 rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" placeholder="Enter your email address" required type="email"/>
-                    <button className="w-full px-4 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 transition-colors shadow-sm cursor-pointer" type="submit">
-                      Apply as a Provider
-                    </button>
+                  <form className="space-y-4" onSubmit={handleProviderSubmit}>
+                    <input className="w-full px-4 py-3 rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" placeholder="Enter your email address" required type="email" value={providerEmail} onChange={(e) => setProviderEmail(e.target.value)} disabled={providerStatus === 'loading' || providerStatus === 'success'} />
+                    {providerStatus === 'error' && (
+                      <p className="text-red-500 text-xs">Something went wrong. Please try again.</p>
+                    )}
+                    {providerStatus === 'success' ? (
+                      <div className="w-full px-4 py-3 bg-green-100 text-green-800 font-medium rounded-lg text-center shadow-sm">
+                        Application received! We&apos;ll be in touch.
+                      </div>
+                    ) : (
+                      <button className="w-full px-4 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 transition-colors shadow-sm cursor-pointer disabled:opacity-70" type="submit" disabled={providerStatus === 'loading'}>
+                        {providerStatus === 'loading' ? 'Applying...' : 'Apply as a Provider'}
+                      </button>
+                    )}
                     <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
                       <svg className="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
                       We respect your privacy. No spam, ever.
