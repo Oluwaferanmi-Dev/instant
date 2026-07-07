@@ -23,9 +23,9 @@ export default function Home() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
               <Link href="#" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">Home</Link>
-              <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How it Works</Link>
+              <Link href="#how-it-works" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How it Works</Link>
               <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Providers</Link>
-              <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</Link>
+              <Link href="#about-us" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</Link>
               <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
             </nav>
             
@@ -66,9 +66,9 @@ export default function Home() {
           <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-4 shadow-lg absolute w-full left-0 z-50">
             <nav className="flex flex-col space-y-4">
               <Link href="#" className="text-base font-medium text-gray-900 hover:text-primary">Home</Link>
-              <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">How it Works</Link>
+              <Link href="#how-it-works" className="text-base font-medium text-gray-500 hover:text-gray-900">How it Works</Link>
               <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">For Providers</Link>
-              <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">About Us</Link>
+              <Link href="#about-us" className="text-base font-medium text-gray-500 hover:text-gray-900">About Us</Link>
               <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">Contact</Link>
             </nav>
             <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
@@ -253,6 +253,92 @@ export default function Home() {
           </div>
         </section>
         {/* END: Categories Section */}
+
+        {/* BEGIN: How it Works Section */}
+        <section id="how-it-works" className="py-20 bg-gray-50 border-y border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">How Instant Works</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">Your journey to finding the perfect service provider, simplified into six easy steps.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {/* Step 1 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">1</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Tell Us What You Need</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Choose the service you’re looking for and provide a few details about the job.</p>
+              </div>
+              
+              {/* Step 2 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">2</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Compare Local Providers</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Browse trusted professionals, compare profiles, ratings, response times, and pricing information all in one place.</p>
+              </div>
+              
+              {/* Step 3 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">3</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Choose Your Provider</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Select the provider that best fits your needs and request a booking.</p>
+              </div>
+              
+              {/* Step 4 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">4</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Confirm Your Booking</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">The provider reviews your request and confirms availability.</p>
+              </div>
+              
+              {/* Step 5 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">5</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Message and Manage</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Chat directly with your provider, ask questions, and keep track of your booking from start to finish.</p>
+              </div>
+              
+              {/* Step 6 */}
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
+                <div className="absolute -top-5 -left-5 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-4 border-gray-50">6</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 mt-2">Get the Job Done</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Your provider completes the service, and you can leave a review to help others make informed decisions.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* END: How it Works Section */}
+
+        {/* BEGIN: About Us Section */}
+        <section id="about-us" className="py-24 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary-light text-primary text-xs font-semibold uppercase tracking-wider mb-6">
+              Our Story
+            </div>
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">About Us</h2>
+            <div className="space-y-6 text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
+              <p>
+                At Partus, the birthplace of Instant, we are a small team from different parts of the world brought together by one simple goal: <span className="font-semibold text-gray-900">solving everyday problems through technology.</span>
+              </p>
+              <p>
+                We started with a simple question: why is finding a reliable home service professional still so difficult?
+              </p>
+              <p>
+                Too often, people spend hours searching, asking for recommendations, and taking chances on providers they know little about. We believed there had to be a better way.
+              </p>
+              <p>
+                That belief led to the creation of <span className="font-semibold text-primary">Instant</span> — a platform designed to make finding, comparing, and booking trusted local service providers simple, transparent, and stress-free.
+              </p>
+              <p>
+                We are still a small team, but we are building with a big vision: to create technology that makes everyday life easier, one problem at a time.
+              </p>
+              <p className="text-xl font-medium text-gray-900 pt-4">
+                This is just the beginning of our journey, and we are excited to build the future with our community.
+              </p>
+            </div>
+          </div>
+        </section>
+        {/* END: About Us Section */}
 
         {/* BEGIN: CTA Sections */}
         <section className="py-16 bg-white">
