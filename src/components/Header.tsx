@@ -21,10 +21,10 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             <Link href="/" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">Home</Link>
-            <Link href="/how-it-works" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How it Works</Link>
-            <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Providers</Link>
-            <Link href="/about-us" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</Link>
-            <Link href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
+            <Link href="/#how-it-works" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How it Works</Link>
+            <Link href="#provider-waitlist" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Providers</Link>
+            <Link href="/#about-us" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</Link>
+            <a href="mailto:Partus.organization@gmail.com" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Contact</a>
           </nav>
           
           {/* Desktop Actions */}
@@ -63,11 +63,11 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-4 shadow-lg absolute w-full left-0 z-50">
           <nav className="flex flex-col space-y-4">
-            <Link href="/" className="text-base font-medium text-gray-900 hover:text-primary">Home</Link>
-            <Link href="/how-it-works" className="text-base font-medium text-gray-500 hover:text-gray-900">How it Works</Link>
-            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">For Providers</Link>
-            <Link href="/about-us" className="text-base font-medium text-gray-500 hover:text-gray-900">About Us</Link>
-            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">Contact</Link>
+            <Link href="/" className="text-base font-medium text-gray-900 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+            <Link href="/#how-it-works" className="text-base font-medium text-gray-500 hover:text-gray-900" onClick={() => setIsMobileMenuOpen(false)}>How it Works</Link>
+            <Link href="#provider-waitlist" className="text-base font-medium text-gray-500 hover:text-gray-900" onClick={() => setIsMobileMenuOpen(false)}>For Providers</Link>
+            <Link href="/#about-us" className="text-base font-medium text-gray-500 hover:text-gray-900" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+            <a href="mailto:Partus.organization@gmail.com" className="text-base font-medium text-gray-500 hover:text-gray-900" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
           </nav>
           <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
             <Link href="/" className="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:bg-blue-700 shadow-sm">
