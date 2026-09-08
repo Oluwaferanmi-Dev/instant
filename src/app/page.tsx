@@ -57,12 +57,15 @@ export default function Home() {
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl mx-auto lg:mx-0 mb-8">
                   Instant helps you find and compare trusted local service providers, view reviews, and book with confidence.
                 </p>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-4">
-                  <Link href="#customer-waitlist" className="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-primary hover:bg-blue-700 md:py-4 md:text-lg md:px-10 shadow-sm transition-all">
-                    Join the Waitlist
+                <div className="mt-5 sm:mt-8 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-4">
+                  <Link href="/customer" className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-bold rounded-xl text-white bg-[#002B95] hover:bg-[#001B63] md:py-4 md:text-lg md:px-10 shadow-md transition-all">
+                    Explore Customer App →
                   </Link>
-                  <Link href="#provider-waitlist" className="w-full sm:w-auto mt-3 sm:mt-0 flex items-center justify-center px-8 py-3 border-2 border-primary text-base font-medium rounded-xl text-primary bg-transparent hover:bg-primary-light md:py-4 md:text-lg md:px-10 transition-all">
-                    I&apos;m a Provider
+                  <Link href="/provider" className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 border-2 border-[#004117] text-base font-bold rounded-xl text-[#004117] bg-[#ECFDF5] hover:bg-[#D1FAE5] md:py-4 md:text-lg md:px-10 transition-all">
+                    Provider Hub
+                  </Link>
+                  <Link href="/login" className="w-full sm:w-auto flex items-center justify-center px-6 py-3.5 border border-[#E2E6F0] text-base font-semibold rounded-xl text-[#0D1B3E] bg-white hover:bg-[#F8F9FC] md:py-4 md:text-lg transition-all">
+                    Sign In
                   </Link>
                 </div>
                 {/* Social Proof */}
