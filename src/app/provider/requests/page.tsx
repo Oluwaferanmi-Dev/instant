@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, MessageSquare, Check, X } from "lucide-react";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { updateBookingStatus } from "@/services/api";
 
 type FilterType = "all" | "pending" | "accepted" | "declined";
 
@@ -41,8 +42,16 @@ export default function ProviderRequestsPage() {
   const [confirmDecline, setConfirmDecline] = useState<string | null>(null);
   const [statuses, setStatuses] = useState<Record<string, "requested" | "accepted" | "declined">>({});
 
-  const acceptReq = (id: string) => setStatuses((p) => ({ ...p, [id]: "accepted" }));
-  const declineReq = (id: string) => { setStatuses((p) => ({ ...p, [id]: "declined" })); setConfirmDecline(null); };
+  const acceptReq = async (id: string) => {
+    await updateBookingStatus(id, "accepted");
+    setStatuses((p) => ({ ...p, [id]: "accepted" }));
+  };
+
+  const declineReq = async (id: string) => {
+    await updateBookingStatus(id, "cancelled");
+    setStatuses((p) => ({ ...p, [id]: "declined" }));
+    setConfirmDecline(null);
+  };
 
   const filtered = allRequests
     .map((r) => ({ ...r, status: (statuses[r.id] ?? r.status) as "requested" | "accepted" | "declined" }))

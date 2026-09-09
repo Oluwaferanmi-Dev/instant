@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Check, Calendar, MapPin, Image as ImageIcon, Info } from "lucide-react";
+import { createBooking } from "@/services/api";
 
 const services = [
   { id: "s1", name: "Leak Repair", desc: "Fix pipe leaks, faucet drips, and water damage sources.", price: "$80–$160", duration: "1–2 hrs" },
@@ -14,6 +15,8 @@ const steps = ["Service", "Describe", "Location", "Date & Time", "Review"];
 
 export default function BookingFlowPage() {
   const router = useRouter();
+  const params = useParams();
+  const providerId = (params?.id as string) || "p1";
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
   const [description, setDescription] = useState("");
@@ -25,9 +28,18 @@ export default function BookingFlowPage() {
   const next = () => setStep((s) => Math.min(s + 1, 5));
   const prev = () => setStep((s) => Math.max(s - 1, 1));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setSubmitting(true);
-    setTimeout(() => router.push("/customer/booking/bk001"), 1200);
+    const result = await createBooking({
+      providerId: providerId,
+      serviceTitle: selectedService?.name || "Home Service",
+      amount: selectedService?.price || "$120",
+      scheduledDate: date === "today" ? "Today" : date === "tomorrow" ? "Tomorrow" : "Scheduled Date",
+      scheduledTime: time,
+      address: address,
+      notes: description,
+    });
+    router.push(`/customer/booking/${result.data?.id || "bk001"}`);
   };
 
   const canNext = () => {

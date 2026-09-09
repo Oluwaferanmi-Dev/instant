@@ -1,14 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { Star, Shield, MapPin, Clock, Briefcase, ChevronLeft, MessageSquare, Calendar, CheckCircle } from "lucide-react";
-
-const services = [
-  { name: "Leak Repair", desc: "Identify and fix pipe leaks, faucet drips, and water damage sources.", price: "$80–$160", duration: "1–2 hrs" },
-  { name: "Drain Cleaning", desc: "Clear blocked drains using professional equipment. Kitchen, bathroom, main line.", price: "$90–$150", duration: "1–3 hrs" },
-  { name: "Water Heater Service", desc: "Installation, repair, or replacement of tank and tankless water heaters.", price: "$150–$400", duration: "2–4 hrs" },
-  { name: "Toilet Repair / Replacement", desc: "Fix running toilets, replace wax rings, install new units.", price: "$80–$250", duration: "1–2 hrs" },
-];
+import { getProviderById, getServicesByProvider, Provider, ServiceItem } from "@/services/api";
 
 const reviews = [
   { name: "Sarah M.", rating: 5, date: "Aug 28, 2026", text: "Mike showed up exactly on time and fixed our kitchen sink leak in under an hour. Very professional, clean workspace. Will definitely book again." },
@@ -19,6 +14,27 @@ const reviews = [
 
 export default function ProviderProfilePage() {
   const router = useRouter();
+  const params = useParams();
+  const providerId = (params?.id as string) || "p1";
+  const [provider, setProvider] = useState<Provider | null>(null);
+  const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProvider() {
+      setLoading(true);
+      const p = await getProviderById(providerId);
+      const svcs = await getServicesByProvider(providerId);
+      setProvider(p);
+      setServicesList(svcs);
+      setLoading(false);
+    }
+    loadProvider();
+  }, [providerId]);
+
+  if (loading || !provider) {
+    return <div className="p-8 text-center text-sm text-[#565E74]">Loading provider profile...</div>;
+  }
 
   return (
     <div className="min-h-full">
@@ -34,30 +50,32 @@ export default function ProviderProfilePage() {
         <div className="bg-white rounded-[20px] border border-[#E2E6F0] p-6 mb-6 shadow-sm">
           <div className="flex flex-col sm:flex-row items-start gap-5">
             <div className="w-20 h-20 rounded-[18px] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-extrabold text-2xl shrink-0">
-              MP
+              {provider.name.split(" ").map((n) => n[0]).join("")}
             </div>
             <div className="flex-1 w-full">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <div className="flex items-center gap-3 mb-1">
-                    <h1 className="text-xl font-extrabold text-[#0D1B3E]">Mike&apos;s Plumbing</h1>
-                    <span className="inline-flex items-center gap-1.5 bg-[#ECFDF5] text-[#004117] text-xs font-bold px-2.5 py-1 rounded-full">
-                      <Shield size={11} /> Verified
-                    </span>
+                    <h1 className="text-xl font-extrabold text-[#0D1B3E]">{provider.businessName || provider.name}</h1>
+                    {provider.verified && (
+                      <span className="inline-flex items-center gap-1.5 bg-[#ECFDF5] text-[#004117] text-xs font-bold px-2.5 py-1 rounded-full">
+                        <Shield size={11} /> Verified
+                      </span>
+                    )}
                   </div>
-                  <p className="text-[#565E74] text-sm mb-3">Plumbing & Drain Services · Austin, TX</p>
+                  <p className="text-[#565E74] text-sm mb-3">{provider.category} Services · {provider.location}</p>
                   <div className="flex items-center gap-4 flex-wrap">
                     <span className="flex items-center gap-1.5 text-sm font-bold text-[#0D1B3E]">
                       <Star size={15} className="fill-amber-400 text-amber-400" />
-                      4.9 <span className="text-[#9EA6BE] font-normal">(127 reviews)</span>
+                      {provider.rating} <span className="text-[#9EA6BE] font-normal">({provider.reviewsCount} reviews)</span>
                     </span>
                     <span className="text-[#E2E6F0]">|</span>
                     <span className="flex items-center gap-1.5 text-sm text-[#565E74]">
-                      <Briefcase size={13} /> 214 jobs completed
+                      <Briefcase size={13} /> {provider.hourlyRate}
                     </span>
                     <span className="text-[#E2E6F0]">|</span>
                     <span className="flex items-center gap-1.5 text-sm text-[#565E74]">
-                      <Clock size={13} /> Responds in ~10 min
+                      <Clock size={13} /> Responds in ~15 min
                     </span>
                   </div>
                 </div>
@@ -69,7 +87,7 @@ export default function ProviderProfilePage() {
                     <MessageSquare size={16} /> Message
                   </button>
                   <button
-                    onClick={() => router.push("/customer/book/p1")}
+                    onClick={() => router.push(`/customer/book/${provider.id}`)}
                     className="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-[#002B95] hover:bg-[#001B63] text-white font-semibold text-sm px-5 py-2.5 rounded-[10px] transition-colors shadow-md shadow-[#002B95]/20"
                   >
                     <Calendar size={16} /> Request Service
@@ -99,10 +117,10 @@ export default function ProviderProfilePage() {
         <div className="bg-white rounded-[16px] border border-[#E2E6F0] p-6 mb-5 shadow-sm">
           <h2 className="font-bold text-[#0D1B3E] mb-3">About</h2>
           <p className="text-[#565E74] text-sm leading-relaxed">
-            Hi, I&apos;m Mike — a licensed master plumber with over 12 years of experience serving the Austin metro area. I specialize in residential plumbing repairs, drain cleaning, water heater installation, and bathroom remodels. I take pride in showing up on time, keeping a clean worksite, and explaining the work clearly before and after.
+            {provider.bio}
           </p>
           <div className="flex flex-wrap gap-2 mt-4">
-            {["Licensed", "Insured", "Background checked", "12+ yrs experience"].map((tag) => (
+            {["Licensed", "Insured", "Background checked", "Verified Pro"].map((tag) => (
               <span key={tag} className="flex items-center gap-1.5 text-xs font-medium bg-[#ECFDF5] text-[#004117] px-3 py-1.5 rounded-full">
                 <CheckCircle size={11} /> {tag}
               </span>
@@ -114,17 +132,17 @@ export default function ProviderProfilePage() {
         <div className="bg-white rounded-[16px] border border-[#E2E6F0] p-6 mb-5 shadow-sm">
           <h2 className="font-bold text-[#0D1B3E] mb-4">Services offered</h2>
           <div className="space-y-3">
-            {services.map((svc) => (
-              <div key={svc.name} className="flex items-center justify-between gap-4 p-4 bg-[#F8F9FC] rounded-[12px]">
+            {servicesList.map((svc) => (
+              <div key={svc.id} className="flex items-center justify-between gap-4 p-4 bg-[#F8F9FC] rounded-[12px]">
                 <div className="flex-1">
-                  <p className="font-semibold text-[#0D1B3E] text-sm mb-1">{svc.name}</p>
-                  <p className="text-xs text-[#565E74] leading-relaxed">{svc.desc}</p>
+                  <p className="font-semibold text-[#0D1B3E] text-sm mb-1">{svc.title}</p>
+                  <p className="text-xs text-[#565E74] leading-relaxed">{svc.description}</p>
                   <p className="text-xs text-[#9EA6BE] mt-1">Est. duration: {svc.duration}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="font-bold text-[#002B95] text-sm">{svc.price}</p>
                   <button
-                    onClick={() => router.push("/customer/book/p1")}
+                    onClick={() => router.push(`/customer/book/${provider.id}`)}
                     className="text-xs text-[#002B95] font-medium mt-1 hover:underline"
                   >
                     Book
