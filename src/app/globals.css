@@ -50,9 +50,34 @@
   .shadow-card {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
 }
 
 :root {
   --background: #ffffff;
   --foreground: #111827; /* gray-900 */
 }
+
+/* Core Web Vitals Layout Stability & Image Protection */
+html {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+/* Prevent layout shift during font or asset loading */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+

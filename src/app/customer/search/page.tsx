@@ -124,8 +124,23 @@ function SearchContent() {
           </div>
 
           {loading ? (
-            <div className="text-center py-20 text-sm text-[#565E74]">
-              Loading service providers...
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white border border-[#E2E6F0] rounded-[16px] p-5 animate-pulse">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-[14px] bg-[#EEF2FF] shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-5 bg-[#EEF2FF] rounded w-1/3" />
+                      <div className="h-3 bg-[#F8F9FC] rounded w-1/4" />
+                      <div className="h-4 bg-[#F8F9FC] rounded w-3/4" />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 mt-4 pt-4 border-t border-[#F8F9FC]">
+                    <div className="flex-1 h-9 bg-[#F8F9FC] rounded-[10px]" />
+                    <div className="flex-1 h-9 bg-[#EEF2FF] rounded-[10px]" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-20">

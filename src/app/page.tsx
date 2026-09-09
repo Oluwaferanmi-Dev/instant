@@ -41,7 +41,7 @@ export default function Home() {
 
 
       {/* BEGIN: Main Content */}
-      <main>
+      <main className="overflow-x-hidden">
         {/* BEGIN: Hero Section */}
         <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -83,8 +83,8 @@ export default function Home() {
               
               {/* Hero Image/Mockup */}
               <div className="lg:col-span-6 relative z-10 flex justify-center lg:justify-end mt-12 lg:mt-0">
-                {/* Simulating a phone mockup */}
-                <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl overflow-hidden">
+                {/* Simulating a phone mockup with explicit aspect-ratio to prevent layout shift */}
+                <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] aspect-[1/2] shadow-xl overflow-hidden shrink-0">
                   <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
                   <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
                   <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
@@ -94,7 +94,7 @@ export default function Home() {
                     {/* App Header */}
                     <div className="px-4 flex justify-between items-center mb-6">
                       <div className="flex items-center gap-1">
-                        <Image src="/logo.png" alt="Instant Logo" width={80} height={20} className="h-5 w-auto" />
+                        <Image src="/logo.png" alt="Instant Logo" width={80} height={20} className="h-5 w-auto" priority />
                       </div>
                       <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
                     </div>

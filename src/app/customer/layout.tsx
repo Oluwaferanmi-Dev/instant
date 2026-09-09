@@ -144,14 +144,14 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         </main>
 
         {/* Mobile bottom nav */}
-        <nav className="lg:hidden flex bg-white border-t border-[#E2E6F0] shrink-0">
+        <nav className="lg:hidden flex items-center h-16 pb-safe bg-white border-t border-[#E2E6F0] shrink-0 z-40">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href || (href !== "/customer" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
                 href={href}
-                className={`flex-1 flex flex-col items-center py-2 text-[10px] font-medium transition-colors ${
+                className={`flex-1 flex flex-col items-center justify-center min-h-[44px] py-1 text-[10px] font-medium transition-colors ${
                   isActive ? "text-[#002B95]" : "text-[#9EA6BE]"
                 }`}
               >
